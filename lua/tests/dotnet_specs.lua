@@ -1,5 +1,6 @@
 describe("dotnet-nvim", function()
     local dotnet = require("dotnet-nvim")
+
     it("should fetch sources", function()
         dotnet.fetch_sources()
         assert.truthy(next(dotnet._nuget_sources))
@@ -63,6 +64,27 @@ describe("dotnet-nvim", function()
 
     it("should query source", function()
         local index = "https://api.nuget.org/v3/index.json"
-        dotnet.query_source({ uri = index, web = true })
+        P(dotnet.query_source({ uri = index, web = true }))
     end)
+
+    it("should return empty table on v2 api", function()
+        local index = "https://www.nuget.org/api/v2"
+        local result = dotnet.query_source({ uri = index, web = true })
+        assert.are.same({}, result)
+    end)
+
+    it("it should search for packages", function()
+        local endpoint = "https://azuresearch-usnc.nuget.org/query"
+        dotnet.search_package({ endpoint }, "LC.Spec", false)
+    end)
+
+    -- integration test
+    it("should be able to search on parsed source", function()
+        local source = "    1. nuget.org [Enabled]"
+        local uri = "     https://api.nuget.org/v3/index.json"
+        local parsed = dotnet.parse_source(source, uri)
+        local endpoints = dotnet.query_source(parsed)
+        assert.are.not_same({}, dotnet.search_package(endpoints["search"], "Autofac"))
+    end)
+
 end)
