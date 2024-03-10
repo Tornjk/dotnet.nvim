@@ -143,4 +143,25 @@ M.search_package = function(search_endpoints, package_name, is_prerelease)
     return {}
 end
 
+M.test = function()
+    local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+    local bufnr = vim.api.nvim_create_buf(false, false)
+
+    local popup = require("plenary.popup")
+    local width = 60
+    local height = 1
+
+    popup.create(bufnr, {
+        title = "dotnet-nvim Test",
+        style = "minimal",
+        line = math.floor((vim.o.lines - height) / 2),
+        col = math.floor((vim.o.columns - width) / 2),
+        minwidth = width,
+        minheight = height,
+        borderchars = borderchars
+    })
+
+
+end
+
 return M
