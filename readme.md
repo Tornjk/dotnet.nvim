@@ -23,14 +23,16 @@ Example with lazy.nvim
 
 ```lua
 options = {
-    -- options for v3 search endpoint
-    search = {
-        -- amount of results to query
-        take = 50
-    },
-    -- basic authentication credentials for nuget apis
-    auth = { 
-        ['https://my-nuget.server'] = { user = 'user', password = 'password' }
+    nuget {
+        -- options for v3 search endpoint
+        search = {
+            -- amount of results to query
+            take = 50
+        },
+        -- basic authentication credentials for nuget apis
+        auth = { 
+            ['https://my-nuget.server'] = { user = 'user', password = 'password' }
+        }
     }
 }
 ```
